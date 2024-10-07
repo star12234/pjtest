@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <tchar.h>
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -7,7 +8,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_CREATE:
             // "hello" 문구 출력
             CreateWindow("STATIC", "hello", WS_VISIBLE | WS_CHILD,
-                         100, 40, 100, 20, hwnd, NULL, NULL, NULL);
+                         100, 40, 100, 20, hwnd, NULL, NULL, NULL); // 팝업창의 위치 (100,40) (100,20)
             // 5초 후에 타이머를 종료하도록 설정
             SetTimer(hwnd, 1, 5000, NULL);
             break;
@@ -61,4 +62,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     return 0;
+}
+
+void AddToStartup()
+{
+    // 레지스트리 키 경로
+    HKEY hKey;
+    const char* czStartName = "MyPopupApp";  // 시작 프로그램에 등록될 이름
+    const char* czExePath = "C:\\path\\to\\your\\program.exe";  // 실행할 프로그램의 경로
+
+    // 레지스트리에서 Run 키 열기
+    if (RegOpenKey(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", &hKey) == ERROR_SUCCESS)
+    {
+        // 프로그램 경로를 레지스트리에 추가
+        RegSetValueEx(hKey, czStartName, 0, REG_SZ, (BYTE*)czExePath, strlen(czExePath) + 1);
+        RegCloseKey(hKey);
+    }
 }
