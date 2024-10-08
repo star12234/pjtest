@@ -95,3 +95,22 @@ int main() {
 
     return 0;
 }
+
+/*
+void AddToStartup()
+{
+    // 레지스트리 키 경로
+    HKEY hKey;
+    const char* czStartName = "MyPopupApp";  // 시작 프로그램에 등록될 이름
+    const char* czExePath = "C:\\path\\to\\your\\program.exe";  // 실행할 프로그램의 경로
+
+    // 레지스트리에서 Run 키 열기
+    if (RegOpenKey(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", &hKey) == ERROR_SUCCESS)
+    {
+        // 프로그램 경로를 레지스트리에 추가
+        RegSetValueEx(hKey, czStartName, 0, REG_SZ, (BYTE*)czExePath, strlen(czExePath) + 1);
+        RegCloseKey(hKey);
+    }
+}
+*/
+
